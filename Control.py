@@ -26,13 +26,23 @@ class Control:
 
 		GPIO.output(self.enable_pin, 1)
 
-		self.delay = int(25) / 10000.0
+		self.delay = int(25) / 1000.0
 
 	# Home
+	def home(self):
+		if status.active == False and status.y > 0:
+			while True:
+				if (self.button_pressed() == False):
+					self.up(1)
+				else:
+					break
+			return
+
 	# Down
 	def down(self, steps):
 		if status.active == False and status.y >= 0:
 			status.active = True
+			step_counter = 0
 			for i in range(0, steps):
 				if self.button_pressed() == False:
 					self.setStep(1, 0, 0, 0)
@@ -43,10 +53,12 @@ class Control:
 					time.sleep(self.delay)
 					self.setStep(0, 0, 0, 1)
 					time.sleep(self.delay)
+					step_counter += 1
+					print "DOWN: Level up +1"
 				else:
 					break
-			# self.prev_state = 1
-			status.y = status.y + steps
+
+			status.y = status.y + step_counter
 			GPIO.cleanup()
 			status.active = False
 			return  
@@ -54,8 +66,11 @@ class Control:
 
 	# Up
 	def up(self, steps):
+		print "UP START"
 		if status.active == False and status.y > 0:
+			print "UP IF"
 			status.active = True
+			step_counter = 0
 			for i in range(0, steps):
 				if self.button_pressed() == False:
 					self.setStep(0, 0, 0, 1) 
@@ -66,10 +81,12 @@ class Control:
 					time.sleep(self.delay)
 					self.setStep(1, 0, 0, 0)
 					time.sleep(self.delay)
+					step_counter += 1
+					print "UP: Level up +1"
 				else:
 					break
 			# self.prev_state = 1
-			status.y = status.y - steps
+			status.y = status.y - step_counter
 			GPIO.cleanup()
 			status.active = False
 			return
@@ -91,6 +108,7 @@ class Control:
 			else:
 				# self.prev_state = curr_state
 				return False
+		return
 	# XPos
 	# YPos
 	# AutoOn

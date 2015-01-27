@@ -29,5 +29,11 @@ def gtfo():
 		control.down(1)
 	return "PUT THAT COOKIE DOWN! NOW!"
 
+@app.route('/home')
+def return_to_sender():
+	control = Control()
+	control.home()
+	return "Return to sender"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
