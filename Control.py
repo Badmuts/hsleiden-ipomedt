@@ -30,13 +30,8 @@ class Control:
 
 	# Home
 	def home(self):
-		if status.active == False and status.y > 0:
-			while True:
-				if (self.button_pressed() == False):
-					self.up(1)
-				else:
-					break
-			return
+		self.up(10000)
+		return
 
 	# Down
 	def down(self, steps):
@@ -54,8 +49,17 @@ class Control:
 					self.setStep(0, 0, 0, 1)
 					time.sleep(self.delay)
 					step_counter += 1
-					print "DOWN: Level up +1"
 				else:
+					for i in range(0, 5):
+						self.setStep(1, 0, 0, 0)
+						time.sleep(self.delay)
+						self.setStep(0, 1, 0, 0)
+						time.sleep(self.delay)
+						self.setStep(0, 0, 1, 0)
+						time.sleep(self.delay)
+						self.setStep(0, 0, 0, 1)
+						time.sleep(self.delay)
+						step_counter += 1
 					break
 
 			status.y = status.y + step_counter
@@ -66,9 +70,7 @@ class Control:
 
 	# Up
 	def up(self, steps):
-		print "UP START"
 		if status.active == False and status.y > 0:
-			print "UP IF"
 			status.active = True
 			step_counter = 0
 			for i in range(0, steps):
@@ -82,8 +84,17 @@ class Control:
 					self.setStep(1, 0, 0, 0)
 					time.sleep(self.delay)
 					step_counter += 1
-					print "UP: Level up +1"
 				else:
+					for i in range(0, 5):
+						self.setStep(1, 0, 0, 0)
+						time.sleep(self.delay)
+						self.setStep(0, 1, 0, 0)
+						time.sleep(self.delay)
+						self.setStep(0, 0, 1, 0)
+						time.sleep(self.delay)
+						self.setStep(0, 0, 0, 1)
+						time.sleep(self.delay)
+						step_counter += 1
 					break
 			# self.prev_state = 1
 			status.y = status.y - step_counter
