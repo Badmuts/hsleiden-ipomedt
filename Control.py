@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+from Status import *
 # This class is to control the step motor.
 # It implements 9 methods
 
@@ -7,7 +8,6 @@ class Control:
 	# Construct
 	def __init__(self):
 		GPIO.setmode(GPIO.BCM)
-		GPIO.setwarnings(False)
 
 		self.enable_pin = 18
 		self.coil_A_1_pin = 4
@@ -23,36 +23,46 @@ class Control:
 
 		GPIO.output(self.enable_pin, 1)
 
-		self.delay = int(10) / 1000.0
+		self.delay = int(25) / 1000.0
 
 	# Home
 	# Down
-	def down(self, steps):  
-		for i in range(0, steps):
-			self.setStep(1, 0, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 1, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 1, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 0, 1)
-			time.sleep(self.delay)
-		GPIO.cleanup()
-		return
+	def down(self, steps):
+		if status.active == False and status.y >= 0:
+			status.active = True
+			for i in range(0, steps):
+				self.setStep(1, 0, 0, 0)
+				time.sleep(self.delay)
+				self.setStep(0, 1, 0, 0)
+				time.sleep(self.delay)
+				self.setStep(0, 0, 1, 0)
+				time.sleep(self.delay)
+				self.setStep(0, 0, 0, 1)
+				time.sleep(self.delay)
+			status.y = status.y + steps
+			GPIO.cleanup()
+			status.active = False
+			return  
+		return "Is active or Y position equals 0"
 
 	# Up
-	def up(self, steps):  
-		for i in range(0, steps):
-			self.setStep(0, 0, 0, 1)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 1, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 1, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(1, 0, 0, 0)
-			time.sleep(self.delay)
-		GPIO.cleanup()
-		return
+	def up(self, steps):
+		if status.active == False and status.y > 0:
+			status.active = True
+			for i in range(0, steps):
+				self.setStep(0, 0, 0, 1)
+				time.sleep(self.delay)
+				self.setStep(0, 0, 1, 0)
+				time.sleep(self.delay)
+				self.setStep(0, 1, 0, 0)
+				time.sleep(self.delay)
+				self.setStep(1, 0, 0, 0)
+				time.sleep(self.delay)
+			status.y = status.y + steps
+			GPIO.cleanup()
+			status.active = False
+			return
+		return "Is active or Y position equals 0"
 
 	def setStep(self, w1, w2, w3, w4):
 		GPIO.output(self.coil_A_1_pin, w1)
