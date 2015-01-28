@@ -130,7 +130,7 @@ class Control:
 	# YPos
 	def y_pos(self):
 		f = open('/boot/y.txt', 'r')
-		return f.read
+		return f.read()
 	# AutoOn
 	# AutoOff
 	# Reboot
