@@ -48,12 +48,12 @@ def shutdown():
 	return 
 
 @app.route('/xpos')
-def shutdown():
+def xpos():
 	control = Control()
 	return  control.x_pos()
 
 @app.route('/ypos')
-def shutdown():
+def ypos():
 	control = Control()
 	return control.y_pos()
 
