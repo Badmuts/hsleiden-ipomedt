@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8" />
 	<title>CSS3 Buttons</title>
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="rangeslider.css">
+	<link rel="stylesheet" href="{{ style }}">
+	<link rel="stylesheet" href="{{ rangeslider }}">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
-	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script src="js/rangeslider.min.js"></script>
+	<script type="text/javascript" src="{{ jquery }}"></script>
+	<script src="{{ rjs }}"></script>
 	<script>
 
 		$(document).ready(function(){
@@ -24,7 +24,7 @@
 				});
 			});
 		});
-		
+
 		$('input[type="range"]').rangeslider({
 
 
