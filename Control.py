@@ -103,7 +103,7 @@ class Control:
 			status.y = status.y - step_counter
 			GPIO.cleanup()
 			status.active = False
-			return str(status.y)
+			return str(12)
 		return "Is active or Y position equals 0"
 
 	def setStep(self, w1, w2, w3, w4):
