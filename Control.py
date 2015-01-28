@@ -38,7 +38,7 @@ class Control:
 
 	# Down
 	def down(self, steps):
-		if status.active == False and status.y >= 0:
+		if status.active == False and status.y > 0:
 			status.active = True
 			step_counter = 0
 			for i in range(0, steps):
@@ -64,7 +64,7 @@ class Control:
 						time.sleep(self.delay)
 						step_counter += 1
 					break
-			status.y = status.y + step_counter
+			status.y += step_counter
 			GPIO.cleanup()
 			status.active = False
 			return  
@@ -98,7 +98,7 @@ class Control:
 						time.sleep(self.delay)
 						step_counter += 1
 					break
-			status.y = status.y - step_counter
+			status.y -= step_counter
 			GPIO.cleanup()
 			status.active = False
 			return

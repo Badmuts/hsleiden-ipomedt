@@ -7,6 +7,13 @@ import os
 app = Flask(__name__)
 # Return ball to home
 
+if not app.debug:
+    import logging
+    from logging.handlers import FileHandler
+    file_handler = FileHandler('/boot/logger.log')
+    file_handler.setLevel(logging.WARNING)
+    app.logger.addHandler(file_handler)
+
 @app.route('/up')
 def beam_me_up():
 	control = Control()
@@ -33,6 +40,7 @@ def gtfo():
 def return_to_sender():
 	control = Control()
 	control.home()
+	app.logger.warning('Status Y is (%d Y)', status.y)
 	return "Return to sender"
 
 @app.route('/reboot')
