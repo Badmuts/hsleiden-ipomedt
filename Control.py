@@ -126,11 +126,15 @@ class Control:
 	# XPos
 	def x_pos(self):
 		f = open('/boot/x.txt', 'r')
-		return f.read()
+		value = f.read()
+		f.close()
+		return value
 	# YPos
 	def y_pos(self):
 		f = open('/boot/y.txt', 'r')
-		return f.read()
+		value = f.read()
+		f.close()
+		return value
 	# AutoOn
 	# AutoOff
 	# Reboot
