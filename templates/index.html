@@ -18,7 +18,8 @@
 
 				$.ajax({
 					url: '/' + target,
-					success: function() {
+					success: function(data) {
+						console.log(data);
 						$(this).removeClass('on');
 					},
 				});
