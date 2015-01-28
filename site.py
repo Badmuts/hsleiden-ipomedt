@@ -3,16 +3,15 @@ from Home import Home
 from Control import Control
 from Status import *
 import os
+import logging
+from logging.handlers import FileHandler
 
 app = Flask(__name__)
 # Return ball to home
 
-if not app.debug:
-    import logging
-    from logging.handlers import FileHandler
-    file_handler = FileHandler('/boot/logger.log')
-    file_handler.setLevel(logging.WARNING)
-    app.logger.addHandler(file_handler)
+file_handler = FileHandler('/boot/logger.log')
+file_handler.setLevel(logging.WARNING)
+app.logger.addHandler(file_handler)
 
 @app.route('/up')
 def beam_me_up():
