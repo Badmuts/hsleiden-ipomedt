@@ -21,27 +21,42 @@ def index():
 	rjs = url_for('static', filename='js/rangeslider.min.js')
 	return render_template('index.html', style=style, rangeslider=rangeslider, jquery=jquery, rjs=rjs)
 
-@app.route('/up')
-def beam_me_up():
-	control = Control()
-	if request.args['steps']:
-		steps = int(request.args['steps'])
-	if steps > 0:
-		control.up(steps)
-	else:
-		control.up(1)
-	return "Beam me up Scotty!"
+# @app.route('/up')
+# def beam_me_up():
+# 	control = Control()
+# 	if request.args['steps']:
+# 		steps = int(request.args['steps'])
+# 	if steps > 0:
+# 		control.up(steps)
+# 	else:
+# 		control.up(1)
+# 	return "Beam me up Scotty!"
 
-@app.route('/down')
-def gtfo():
+@app.route('/down/<int:steps>')
+def down_steps(steps):
 	control = Control()
-	if request.args['steps']:
-		steps = int(request.args['steps'])
 	if steps > 0:
 		control.down(steps)
-	else:
-		control.down(1)
 	return "PUT THAT COOKIE DOWN! NOW!"
+
+@app.route('/down')
+def down():
+	control = Control()
+	control.down(1)
+	return "PUT THAT COOKIE DOWN! NOW!"
+
+@app.route('/up/<int:steps>')
+def up_steps(steps):
+	control = Control()
+	if steps > 0:
+		control.up(steps)
+	return "Beam me up Scotty!"
+
+@app.route('/up')
+def up():
+	control = Control()
+	control.up(1)
+	return "Beam me up Scotty!"
 
 @app.route('/home')
 def return_to_sender():

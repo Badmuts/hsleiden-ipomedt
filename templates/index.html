@@ -14,13 +14,14 @@
 			$('[data-toggle=ajax-req]').on('click', function(e){
 				e.preventDefault();
 				var target = $(this).attr('id');
+				var self = $(this);
 				$(this).toggleClass('on');
 
 				$.ajax({
 					url: '/' + target,
 					success: function(data) {
 						console.log(data);
-						$(this).removeClass('on');
+						self.toggleClass('on');
 					},
 				});
 			});
