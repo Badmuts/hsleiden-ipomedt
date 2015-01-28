@@ -3,6 +3,7 @@ import time
 import os
 import subprocess
 from Status import *
+
 # This class is to control the step motor.
 # It implements 9 methods
 
@@ -102,7 +103,7 @@ class Control:
 			status.y = status.y - step_counter
 			GPIO.cleanup()
 			status.active = False
-			return
+			return status.y
 		return "Is active or Y position equals 0"
 
 	def setStep(self, w1, w2, w3, w4):

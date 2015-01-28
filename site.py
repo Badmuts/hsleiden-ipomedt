@@ -32,8 +32,8 @@ def gtfo():
 @app.route('/home')
 def return_to_sender():
 	control = Control()
-	control.home()
-	return "Return to sender"
+	y = control.home()
+	return "Return to sender" + str(y)
 
 @app.route('/reboot')
 def reboot():
