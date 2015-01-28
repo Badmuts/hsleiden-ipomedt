@@ -2,7 +2,7 @@ from flask import Flask, request
 from Home import Home
 from Control import Control
 from Status import *
-import os
+import syslog
 # import logging
 # from logging.handlers import FileHandler
 
