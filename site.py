@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from Home import Home
 from Control import Control
 from Status import *
