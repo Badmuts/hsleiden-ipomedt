@@ -13,13 +13,20 @@ class Control:
 	def __init__(self):
 		GPIO.setmode(GPIO.BCM)
 
-		self.enable_pin = 18
+		self.enable_pin = 19
 		self.coil_A_1_pin = 4
 		self.coil_A_2_pin = 17
 		self.coil_B_1_pin = 23
 		self.coil_B_2_pin = 24
 		self.buttonPin = 7
 		self.prev_state = 1
+		self.ligth_sensorpin = 18  
+		self.light_prev_state = 1 
+		self.event = 1
+
+		GPIO.setup(11, GPIO.OUT) ## Setup GPIO pin 7 to OUT
+		GPIO.setup(18, GPIO.IN) ## Setup GPIO pin 18 to INPUT
+		GPIO.setup(self.ligth_sensorpin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 		GPIO.setup(self.enable_pin, GPIO.OUT)
 		GPIO.setup(self.coil_A_1_pin, GPIO.OUT)
@@ -37,10 +44,47 @@ class Control:
 		self.up(10000)
 		return
 
+	def checkLight(self):
+		
+		light_status = True
+		while light_status:
+			curr_state = GPIO.input(self.ligth_sensorpin)
+			if (curr_state != self.light_prev_state): 
+				if (curr_state == 1): 
+					event = "FAAAAL"
+					print event  
+				else:   
+					self.animate()
+					break
+				self.light_prev_state = curr_state 
+			time.sleep(0.02)		
+		GPIO.cleanup()
+		return
+
+	def animate(self):
+
+		count = 0
+		for i in range(0, 400):
+			self.setStep(1, 0, 0, 0)
+			time.sleep(self.delay)
+			self.setStep(0, 1, 0, 0)
+			time.sleep(self.delay)
+			self.setStep(0, 0, 1, 0)
+			time.sleep(self.delay)
+			self.setStep(0, 0, 0, 1)
+			time.sleep(self.delay)
+			count += 1
+			if count >= 100 and count < 200:
+				GPIO.output(11, True)
+				time.sleep(0.01)
+				GPIO.output(11, False)
+
+		return
 	# Down
 	def down(self, steps):
 		if status.active == False:
 			status.active = True
+			# step_counter = 0
 			for i in range(0, steps):
 				if self.button_pressed() == False:
 					self.setStep(1, 0, 0, 0)
@@ -51,7 +95,7 @@ class Control:
 					time.sleep(self.delay)
 					self.setStep(0, 0, 0, 1)
 					time.sleep(self.delay)
-					syslog.syslog("DAAN: Down 1 step")
+					# step_counter += 1
 				else:
 					for i in range(0, 5):
 						self.setStep(1, 0, 0, 0)
@@ -62,8 +106,9 @@ class Control:
 						time.sleep(self.delay)
 						self.setStep(0, 0, 0, 1)
 						time.sleep(self.delay)
+						# step_counter += 1
 					break
-			syslog.syslog("DAAN: Stop down command")
+			# status.y += step_counter
 			GPIO.cleanup()
 			status.active = False
 			return  
