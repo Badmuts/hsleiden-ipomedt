@@ -38,9 +38,9 @@ class Control:
 
 	# Down
 	def down(self, steps):
-		if status.active == False:
+		if status.active == False and status.y >= 0:
 			status.active = True
-			# step_counter = 0
+			step_counter = 0
 			for i in range(0, steps):
 				if self.button_pressed() == False:
 					self.setStep(1, 0, 0, 0)
@@ -51,7 +51,7 @@ class Control:
 					time.sleep(self.delay)
 					self.setStep(0, 0, 0, 1)
 					time.sleep(self.delay)
-					# step_counter += 1
+					step_counter += 1
 				else:
 					for i in range(0, 5):
 						self.setStep(1, 0, 0, 0)
@@ -62,9 +62,9 @@ class Control:
 						time.sleep(self.delay)
 						self.setStep(0, 0, 0, 1)
 						time.sleep(self.delay)
-						# step_counter += 1
+						step_counter += 1
 					break
-			# status.y = status.y + step_counter
+			status.y = status.y + step_counter
 			GPIO.cleanup()
 			status.active = False
 			return  
@@ -72,9 +72,9 @@ class Control:
 
 	# Up
 	def up(self, steps):
-		if status.active == False:
+		if status.active == False and status.y > 0:
 			status.active = True
-			# step_counter = 0
+			step_counter = 0
 			for i in range(0, steps):
 				if self.button_pressed() == False:
 					self.setStep(0, 0, 0, 1) 
@@ -85,9 +85,9 @@ class Control:
 					time.sleep(self.delay)
 					self.setStep(1, 0, 0, 0)
 					time.sleep(self.delay)
-					# step_counter += 1
+					step_counter += 1
 				else:
-					for i in range(0, 15):
+					for i in range(0, 5):
 						self.setStep(1, 0, 0, 0)
 						time.sleep(self.delay)
 						self.setStep(0, 1, 0, 0)
@@ -96,9 +96,9 @@ class Control:
 						time.sleep(self.delay)
 						self.setStep(0, 0, 0, 1)
 						time.sleep(self.delay)
-						# step_counter += 1
+						step_counter += 1
 					break
-			# status.y = status.y - step_counter
+			status.y = status.y - step_counter
 			GPIO.cleanup()
 			status.active = False
 			return
