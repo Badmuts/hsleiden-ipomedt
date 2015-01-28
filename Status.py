@@ -26,7 +26,9 @@ class Status:
 
 f = open('/boot/x.txt', 'r')		
 x_pos = int(f.read())
+f.close()
 f = open('/boot/y.txt', 'r')		
 y_pos = int(f.read())
+f.close()
 
 status = Status(x_pos, y_pos)
