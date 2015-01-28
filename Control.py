@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import os
+import subprocess
 from Status import *
 # This class is to control the step motor.
 # It implements 9 methods
@@ -132,5 +133,18 @@ class Control:
 		return f.read
 	# AutoOn
 	# AutoOff
-	# Shutdown
 	# Reboot
+	def reboot(self):
+		command = "/usr/bin/sudo /sbin/shutdown -r now"
+		process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+		output = process.communicate()[0]
+		print output
+		return
+
+	# Shutdown
+	def shutdown(self):
+		command = "/usr/bin/sudo /sbin/shutdown -h 0"
+		process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+		output = process.communicate()[0]
+		print output
+		return

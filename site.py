@@ -35,5 +35,17 @@ def return_to_sender():
 	control.home()
 	return "Return to sender"
 
+@app.route('/reboot')
+def reboot():
+	control = Control()
+	control.reboot()
+	return 
+
+@app.route('/shutdown')
+def shutdown():
+	control = Control()
+	control.shutdown()
+	return 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
