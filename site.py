@@ -13,6 +13,10 @@ app = Flask(__name__)
 # file_handler.setLevel(logging.WARNING)
 # app.logger.addHandler(file_handler)
 
+@app.route('/')
+def index():
+	return render_template('index.html')
+
 @app.route('/up')
 def beam_me_up():
 	control = Control()
