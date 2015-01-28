@@ -19,7 +19,7 @@ def index():
 	rangeslider = url_for('static', filename='rangeslider.css')
 	jquery = url_for('static', filename='js/jquery-1.7.2.min.js')
 	rjs = url_for('static', filename='js/rangeslider.min.js')
-	return render_template('index.html')
+	return render_template('index.html', style=style, rangeslider=rangeslider, jquery=jquery, rjs=rjs)
 
 @app.route('/up')
 def beam_me_up():
