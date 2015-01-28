@@ -11,5 +11,22 @@ class Status:
 		max_mm = 3 * 1000
 		max_steps = max_mm / 0.30
 		return max_steps
-		
-status = Status(1, 50)
+
+	def set_y(self, y):
+		self.y = y
+		f = open('/boot/y.txt', 'w')
+		f.write(str(y))
+		return
+
+	def set_x(self, x):
+		self.x = x
+		f = open('/boot/x.txt', 'w')
+		f.write(str(x))
+		return
+
+f = open('/boot/x.txt', 'r')		
+x_pos = int(f.read())
+f = open('/boot/y.txt', 'r')		
+y_pos = int(f.read())
+
+status = Status(x_pos, y_pos)

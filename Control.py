@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import os
 from Status import *
 # This class is to control the step motor.
 # It implements 9 methods
@@ -26,7 +27,7 @@ class Control:
 
 		GPIO.output(self.enable_pin, 1)
 
-		self.delay = int(25) / 1000.0
+		self.delay = int(2.5) / 1000.0
 
 	# Home
 	def home(self):
@@ -120,8 +121,15 @@ class Control:
 				# self.prev_state = curr_state
 				return False
 		return
+	
 	# XPos
+	def x_pos(self):
+		f = open('/boot/x.txt', 'r')
+		return f.read()
 	# YPos
+	def y_pos(self):
+		f = open('/boot/y.txt', 'r')
+		return f.read
 	# AutoOn
 	# AutoOff
 	# Shutdown
