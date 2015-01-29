@@ -1,6 +1,7 @@
+# encoding=utf8
 import RPi.GPIO as GPIO
 import time
-import os
+import os, sys
 import subprocess
 from Status import *
 import syslog
@@ -56,7 +57,8 @@ class Control:
 				if (curr_state == 1): 
 					event = "FAAAAL"
 					print event  
-				else:   
+				else:
+					self.writeStatus(1)
 					self.animate()
 					break
 				self.light_prev_state = curr_state 
@@ -65,8 +67,16 @@ class Control:
 		return
 
 	def animate(self):
-		while True:
-			if (self.destruct == True):
+		f = open('/home/pi/hsleiden-ipomedt/status.txt','r')
+		stat = f.read()
+		syslog.syslog("DAAN: GOEIE DING STATUS: " + str(stat))
+		f.close()
+		while int(stat) == 1:
+			f = open('/home/pi/hsleiden-ipomedt/status.txt','r')
+			stat = f.read()
+			syslog.syslog("DAAN: GOEIE DING WHILE STATUS: " + str(stat))
+			f.close()
+			if (int(stat) == 1):
 				self.down(100)
 				GPIO.output(11, True)
 				time.sleep(0.1)
@@ -213,5 +223,19 @@ class Control:
 		GPIO.setup(self.buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 		GPIO.output(self.enable_pin, 1)
-		self.destruct = False
+		self.writeStatus(0)
+		f = open('/home/pi/hsleiden-ipomedt/status.txt','r')
+		stat = f.read()
+		syslog.syslog("DAAN: DESTRUCT STATUS: " + str(stat))
+		f.close()
+
 		return
+
+	def writeStatus(self, status):
+		save_path = "/home/pi/hsleiden-ipomedt/"
+		name_of_file = "status"
+		completeName = os.path.join(save_path, name_of_file+".txt")  
+		file1 = open(completeName, "w")
+		toFile = status
+		file1.write(str(toFile))
+		file1.close()

@@ -84,14 +84,15 @@ def ypos():
 
 @app.route('/auto_on.htm')
 def auto_on():
-	# control = Control()
-	autoControl.checkLight()
+	control = Control()
+	control.checkLight()
 	return "Kapot NICE !!!"
 
 @app.route('/auto_off.htm')
 def auto_off():
-	autoControl.self_destruct()
+	control = Control()
+	control.self_destruct()
 	return "Animation stopped"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, threaded=True)
