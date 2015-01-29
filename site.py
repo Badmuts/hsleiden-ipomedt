@@ -7,7 +7,7 @@ import syslog
 app = Flask(__name__)
 # Return ball to home
 
-@app.route('/')
+@app.route('/index.htm')
 def index():
 	style 		= url_for('static', filename='style.css')
 	rangeslider = url_for('static', filename='rangeslider.css')
@@ -22,7 +22,7 @@ def down_steps(steps):
 		control.down(steps)
 	return "PUT THAT COOKIE DOWN! NOW!"
 
-@app.route('/down')
+@app.route('/down.htm')
 def down():
 	control = Control()
 	control.down(1)
@@ -35,59 +35,48 @@ def up_steps(steps):
 		control.up(steps)
 	return "Beam me up Scotty!"
 
-@app.route('/up')
+@app.route('/up.htm')
 def up():
 	control = Control()
 	control.up(1)
 	return "Beam me up Scotty!"
 
-@app.route('/home')
+@app.route('/home.htm')
 def return_to_sender():
 	control = Control()
 	control.home()
 	# app.logger.warning('Status Y is (%d Y)', status.y)
 	return "Return to sender"
 
-@app.route('/reboot')
+@app.route('/reboot.htm')
 def reboot():
 	control = Control()
 	control.reboot()
 	return 
 
-@app.route('/shutdown')
+@app.route('/shutdown.htm')
 def shutdown():
 	control = Control()
 	control.shutdown()
 	return 
 
-@app.route('/xpos')
+@app.route('/xpos.htm')
 def xpos():
 	control = Control()
 	return  control.x_pos()
 
-@app.route('/ypos')
+@app.route('/ypos.htm')
 def ypos():
 	control = Control()
 	return control.y_pos()
 
-@app.route('/animate')
-def superanimatie():
-	control = Control()
-	control.animate()
-	return "animatie!"
-
-@app.route('/checklight')
-def check():
+@app.route('/auto_on.htm')
+def auto_on():
 	control = Control()
 	control.checkLight()
 	return "Kapot NICE !!!"
 
-@app.route('/auto_on')
-def auto_on():
-	autoControl.checkLight()
-	return
-
-@app.route('/auto_off')
+@app.route('/auto_off.htm')
 def auto_off():
 	autoControl.self_destruct()
 	return "Animation stopped"
