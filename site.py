@@ -82,5 +82,13 @@ def checkLight():
 	control.checkLight()
 	return "Kapot NICE !!!"
 
+@app.route('/auto_on')
+def auto_on():
+	control = Control()
+	control.auto_on()
+	return
+
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
