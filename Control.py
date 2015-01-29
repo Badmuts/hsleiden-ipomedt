@@ -175,26 +175,7 @@ class Control:
 		value = y.read()
 		y.close()
 		return value
-	# AutoOn
-	def auto_on(self):
-
-		count = 0
-		for i in range(0, 400):
-			self.setStep(1, 0, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 1, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 1, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 0, 1)
-			time.sleep(self.delay)
-			count += 1
-			if count >= 100 and count < 200:
-				GPIO.output(11, True)
-				time.sleep(0.01)
-				GPIO.output(11, False)
-
-		return
+                
 	# AutoOff
 	# Reboot
 	def reboot(self):

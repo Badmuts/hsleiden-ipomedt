@@ -85,7 +85,7 @@ def checkLight():
 @app.route('/auto_on')
 def auto_on():
 	control = Control()
-	control.auto_on()
+	control.animate()
 	return
 
 
