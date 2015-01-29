@@ -41,7 +41,6 @@ class Control:
 	def down(self, steps):
 		if status.active == False:
 			status.active = True
-			# step_counter = 0
 			for i in range(0, steps):
 				if self.button_pressed() == False:
 					self.setStep(1, 0, 0, 0)
@@ -52,7 +51,7 @@ class Control:
 					time.sleep(self.delay)
 					self.setStep(0, 0, 0, 1)
 					time.sleep(self.delay)
-					# step_counter += 1
+					syslog.syslog("DAAN: Down 1 step")
 				else:
 					for i in range(0, 5):
 						self.setStep(1, 0, 0, 0)
@@ -63,9 +62,8 @@ class Control:
 						time.sleep(self.delay)
 						self.setStep(0, 0, 0, 1)
 						time.sleep(self.delay)
-						# step_counter += 1
 					break
-			# status.y += step_counter
+			syslog.syslog("DAAN: Stop down command")
 			GPIO.cleanup()
 			status.active = False
 			return  

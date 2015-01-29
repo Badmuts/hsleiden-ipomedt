@@ -15,12 +15,20 @@
 				e.preventDefault();
 				var target = $(this).attr('id');
 				var self = $(this);
+				var sliderValue = $("#" + target + "-slider").val();
 				$(this).toggleClass('on');
 
+				var finalUrl;
+
+				if (typeof sliderValue === 'undefined') {
+					finalUrl = '/' + target;
+				} else {
+					finalUrl = '/' + target + "/" + sliderValue;
+				}
+
 				$.ajax({
-					url: '/' + target,
+					url: finalUrl,
 					success: function(data) {
-						console.log(data);
 						self.toggleClass('on');
 					},
 				});
@@ -45,14 +53,14 @@
 		<section>
 			<a data-toggle="ajax-req" href="#" id="up">&#xf0aa;</a>
 			<div id="js-example-change-value">        
-				<input type="range" min="1" max="100" value="1" data-rangeslider>
+				<input id="up-slider" type="range" min="1" max="100" value="1" data-rangeslider>
 				<p>Number of steps: <output></output></p>    
 			</div>
 		</section>	
 		<section>
 			<a data-toggle="ajax-req" href="#" id="down">&#xf0ab;</a>
 			<div id="js-example-change-value">        
-				<input type="range" min="1" max="100" value="1" data-rangeslider>
+				<input id="down-slider" type="range" min="1" max="100" value="1" data-rangeslider>
 				<p>Number of steps: <output></output></p>				
 			</div>
 		</section>	
@@ -92,15 +100,8 @@
             onInit: function() {},
 
             // Callback function
-            onSlide: function(position, value) {
-            	console.log('onSlide');
-            	console.log('position: ' + position, 'value: ' + value);
-            },
-
-            // Callback function
             onSlideEnd: function(position, value) {
-            	console.log('onSlideEnd');
-            	console.log('position: ' + position, 'value: ' + value);
+            	$element.attr("value", value)
             }
         });
 

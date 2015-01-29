@@ -9,10 +9,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	style = url_for('static', filename='style.css')
+	style 		= url_for('static', filename='style.css')
 	rangeslider = url_for('static', filename='rangeslider.css')
-	jquery = url_for('static', filename='js/jquery-1.7.2.min.js')
-	rjs = url_for('static', filename='js/rangeslider.min.js')
+	jquery 		= url_for('static', filename='js/jquery-1.7.2.min.js')
+	rjs 		= url_for('static', filename='js/rangeslider.min.js')
 	return render_template('index.html', style=style, rangeslider=rangeslider, jquery=jquery, rjs=rjs)
 
 @app.route('/down/<int:steps>')
