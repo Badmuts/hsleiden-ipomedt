@@ -13,6 +13,8 @@ class Control:
 	def __init__(self):
 		GPIO.setmode(GPIO.BCM)
 
+		self.destruct = True
+
 		self.enable_pin = 19
 		self.coil_A_1_pin = 4
 		self.coil_A_2_pin = 17
@@ -45,36 +47,31 @@ class Control:
 		return
 
 	def checkLight(self):
-		light_status = True
-		while light_status:
-			curr_state = GPIO.input(self.ligth_sensorpin)
-			if (curr_state != self.light_prev_state): 
-				if (curr_state != 1):
-					self.animate()
-					break
-				self.light_prev_state = curr_state 
-			time.sleep(0.02)		
-		GPIO.cleanup()
-		return
+		return GPIO.input(self.ligth_sensorpin)
+		
+		# while light_status:
+		# 	if (curr_state != self.light_prev_state): 
+		# 		if (curr_state != 1):
+		# 			self.animate()
+		# 			break
+		# 		self.light_prev_state = curr_state 
+		# 	time.sleep(0.02)		
+		# GPIO.cleanup()
+		# return
 
 	def animate(self):
-
-		count = 0
-		for i in range(0, 400):
-			if count == 100:
-				GPIO.output(11, True)
-				time.sleep(0.1)
-				GPIO.output(11, False)
-			self.setStep(1, 0, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 1, 0, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 1, 0)
-			time.sleep(self.delay)
-			self.setStep(0, 0, 0, 1)
-			time.sleep(self.delay)
-			count += 1
-
+		# count = 0
+		while True:
+			if (self.checkLight() == True):
+				if (self.destruct == True):
+					self.down(100)
+					GPIO.output(11, True)
+					time.sleep(0.1)
+					GPIO.output(11, False)
+					self.down(410)
+					self.up(500)
+				else:
+					break
 		return
 
 	# Down
@@ -104,9 +101,9 @@ class Control:
 						self.setStep(0, 0, 0, 1)
 						time.sleep(self.delay)
 						# step_counter += 1
+					self.self_destruct()
 					break
 			# status.y += step_counter
-			GPIO.cleanup()
 			status.active = False
 			return  
 		return "Is active or Y position equals 0"
@@ -138,9 +135,9 @@ class Control:
 						self.setStep(0, 0, 0, 1)
 						time.sleep(self.delay)
 						# step_counter += 1
+					self.self_destruct()
 					break
 			# status.y -= step_counter
-			GPIO.cleanup()
 			status.active = False
 			return
 		return "Is active or Y position equals 0"
@@ -191,4 +188,24 @@ class Control:
 		process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
 		output = process.communicate()[0]
 		print output
+		return
+
+	def self_destruct(self):
+		syslog.syslog("DAAN: SELF DESTRUCT")
+		GPIO.cleanup()
+		GPIO.setmode(GPIO.BCM)
+
+		GPIO.setup(11, GPIO.OUT) ## Setup GPIO pin 7 to OUT
+		GPIO.setup(18, GPIO.IN) ## Setup GPIO pin 18 to INPUT
+		GPIO.setup(self.ligth_sensorpin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+		GPIO.setup(self.enable_pin, GPIO.OUT)
+		GPIO.setup(self.coil_A_1_pin, GPIO.OUT)
+		GPIO.setup(self.coil_A_2_pin, GPIO.OUT)
+		GPIO.setup(self.coil_B_1_pin, GPIO.OUT)
+		GPIO.setup(self.coil_B_2_pin, GPIO.OUT)
+		GPIO.setup(self.buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+		GPIO.output(self.enable_pin, 1)
+		self.destruct = False
 		return

@@ -6,6 +6,7 @@ import syslog
 
 app = Flask(__name__)
 # Return ball to home
+autoControl = Control()
 
 @app.route('/')
 def index():
@@ -84,11 +85,23 @@ def checkLight():
 
 @app.route('/auto_on')
 def auto_on():
-	control = Control()
-	control.animate()
+	autoControl.animate()
 	return
 
-
+@app.route('/auto_off')
+def auto_off():
+	autoControl.self_destruct()
+	return "Animation stopped"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
+
+    syslog.syslog("DAAN: App started")
+
+    maincontol = Control()
+    while True:
+    	syslog.syslog("DAAN: checkLight loop started")
+    	if (maincontol.checkLight()):
+    		maincontol.animate()
+    		syslog.syslog("DAAN: Animate started")
+    		break
