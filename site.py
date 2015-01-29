@@ -3,12 +3,10 @@ from Home import Home
 from Control import Control
 from Status import *
 import syslog
-from flask_request_params import bind_request_params
 
 app = Flask(__name__)
 # Return ball to home
 autoControl = Control()
-app.before_request(bind_request_params)
 
 @app.route('/index.htm')
 def index():
