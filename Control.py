@@ -21,7 +21,7 @@ class Control:
 		self.coil_B_1_pin = 23
 		self.coil_B_2_pin = 24
 		self.buttonPin = 7
-		self.prev_state = 1
+		self.button_prev_state = 1
 		self.ligth_sensorpin = 18  
 		self.light_prev_state = 1 
 		self.event = 1
@@ -47,31 +47,33 @@ class Control:
 		return
 
 	def checkLight(self):
-		return GPIO.input(self.ligth_sensorpin)
 		
-		# while light_status:
-		# 	if (curr_state != self.light_prev_state): 
-		# 		if (curr_state != 1):
-		# 			self.animate()
-		# 			break
-		# 		self.light_prev_state = curr_state 
-		# 	time.sleep(0.02)		
-		# GPIO.cleanup()
-		# return
+		light_status = True
+		while light_status:
+			curr_state = GPIO.input(self.ligth_sensorpin)
+			if (curr_state != self.light_prev_state): 
+				if (curr_state == 1): 
+					event = "FAAAAL"
+					print event  
+				else:   
+					self.animate()
+					break
+				self.light_prev_state = curr_state 
+			time.sleep(0.02)		
+		GPIO.cleanup()
+		return
 
 	def animate(self):
-		# count = 0
 		while True:
-			if (self.checkLight() == True):
-				if (self.destruct == True):
-					self.down(100)
-					GPIO.output(11, True)
-					time.sleep(0.1)
-					GPIO.output(11, False)
-					self.down(410)
-					self.up(500)
-				else:
-					break
+			if (self.destruct == True):
+				self.down(100)
+				GPIO.output(11, True)
+				time.sleep(0.1)
+				GPIO.output(11, False)
+				self.down(410)
+				self.up(500)
+			else:
+				break
 		return
 
 	# Down
@@ -152,11 +154,11 @@ class Control:
 	def button_pressed(self):
 		if status.active == True:
 			curr_state = GPIO.input(self.buttonPin)
-			if curr_state != self.prev_state and curr_state == 0:
-				self.prev_state = curr_state
+			if curr_state != self.button_prev_state and curr_state == 0:
+				self.button_prev_state = curr_state
 				return True
 			else:
-				# self.prev_state = curr_state
+				# self.button_prev_state = curr_state
 				return False
 		return
 	
