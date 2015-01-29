@@ -29,13 +29,11 @@ def index():
 @app.route('/down.htm')
 def down():
 	control = Control()
-	if request.args['steps']:
- 		steps = int(request.args['steps'])
- 	if steps > 0:
- 		control.down(steps)
- 	else:
- 		control.down(1)
-	# control.down(1)
+	try:
+		steps = int(request.args['steps'])
+	except:
+		steps = 1
+	control.down(steps)
 	return "PUT THAT COOKIE DOWN! NOW!"
 
 # @app.route('/up/<int:steps>')
@@ -48,12 +46,11 @@ def down():
 @app.route('/up.htm')
 def up():
 	control = Control()
-	if request.args['steps']:
- 		steps = int(request.args['steps'])
- 	if steps > 0:
- 		control.up(steps)
- 	else:
- 		control.up(1)
+	try:
+		steps = int(request.args['steps'])
+	except:
+		steps = 1
+	control.up(steps)
 	return "Beam me up Scotty!"
 
 @app.route('/home.htm')
