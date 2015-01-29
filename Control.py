@@ -45,20 +45,36 @@ class Control:
 		return
 
 	def checkLight(self):
-		
 		light_status = True
 		while light_status:
 			curr_state = GPIO.input(self.ligth_sensorpin)
 			if (curr_state != self.light_prev_state): 
-				if (curr_state == 1): 
-					event = "FAAAAL"
-					print event  
-				else:   
+				if (curr_state != 1):
 					self.animate()
 					break
 				self.light_prev_state = curr_state 
 			time.sleep(0.02)		
 		GPIO.cleanup()
+		return
+
+	def animate(self):
+
+		count = 0
+		for i in range(0, 400):
+			if count == 100:
+				GPIO.output(11, True)
+				time.sleep(0.1)
+				GPIO.output(11, False)
+			self.setStep(1, 0, 0, 0)
+			time.sleep(self.delay)
+			self.setStep(0, 1, 0, 0)
+			time.sleep(self.delay)
+			self.setStep(0, 0, 1, 0)
+			time.sleep(self.delay)
+			self.setStep(0, 0, 0, 1)
+			time.sleep(self.delay)
+			count += 1
+
 		return
 
 	# Down
