@@ -70,5 +70,17 @@ def ypos():
 	control = Control()
 	return control.y_pos()
 
+@app.route('/animate')
+def superanimatie():
+	control = Control()
+	control.animate()
+	return "animatie!"
+
+@app.route('/checklight')
+def checkLight():
+	control = Control()
+	control.checkLight()
+	return "Kapot NICE !!!"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
