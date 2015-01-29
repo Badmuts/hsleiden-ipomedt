@@ -3,9 +3,12 @@ from Home import Home
 from Control import Control
 from Status import *
 import syslog
+from flask_request_params import bind_request_params
 
 app = Flask(__name__)
 # Return ball to home
+autoControl = Control()
+app.before_request(bind_request_params)
 
 @app.route('/index.htm')
 def index():
@@ -15,30 +18,42 @@ def index():
 	rjs 		= url_for('static', filename='js/rangeslider.min.js')
 	return render_template('index.html', style=style, rangeslider=rangeslider, jquery=jquery, rjs=rjs)
 
-@app.route('/down/<int:steps>')
-def down_steps(steps):
-	control = Control()
-	if steps > 0:
-		control.down(steps)
-	return "PUT THAT COOKIE DOWN! NOW!"
+# @app.route('/down.htm', methods=['GET'])
+# def down_steps():
+# 	steps = request.params.require('steps')
+# 	control = Control()
+# 	if steps > 0:
+# 		control.down(steps)
+# 	return "PUT THAT COOKIE DOWN! NOW!"
 
 @app.route('/down.htm')
 def down():
 	control = Control()
-	control.down(1)
+	if request.args['steps']:
+ 		steps = int(request.args['steps'])
+ 	if steps > 0:
+ 		control.down(steps)
+ 	else:
+ 		control.down(1)
+	# control.down(1)
 	return "PUT THAT COOKIE DOWN! NOW!"
 
-@app.route('/up/<int:steps>')
-def up_steps(steps):
-	control = Control()
-	if steps > 0:
-		control.up(steps)
-	return "Beam me up Scotty!"
+# @app.route('/up/<int:steps>')
+# def up_steps(steps):
+# 	control = Control()
+# 	if steps > 0:
+# 		control.up(steps)
+# 	return "Beam me up Scotty!"
 
 @app.route('/up.htm')
 def up():
 	control = Control()
-	control.up(1)
+	if request.args['steps']:
+ 		steps = int(request.args['steps'])
+ 	if steps > 0:
+ 		control.up(steps)
+ 	else:
+ 		control.up(1)
 	return "Beam me up Scotty!"
 
 @app.route('/home.htm')
@@ -72,8 +87,8 @@ def ypos():
 
 @app.route('/auto_on.htm')
 def auto_on():
-	control = Control()
-	control.checkLight()
+	# control = Control()
+	autoControl.checkLight()
 	return "Kapot NICE !!!"
 
 @app.route('/auto_off.htm')

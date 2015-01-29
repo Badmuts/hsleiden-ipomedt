@@ -4,6 +4,7 @@ import os
 import subprocess
 from Status import *
 import syslog
+import pprint
 
 # This class is to control the step motor.
 # It implements 9 methods
@@ -78,6 +79,9 @@ class Control:
 
 	# Down
 	def down(self, steps):
+		pprint.pprint(globals())
+		pprint.pprint(locals())
+		pprint.pprint(steps)
 		if status.active == False:
 			status.active = True
 			# step_counter = 0

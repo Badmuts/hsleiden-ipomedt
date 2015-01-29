@@ -21,10 +21,12 @@
 				var finalUrl;
 
 				if (typeof sliderValue === 'undefined') {
-					finalUrl = '/' + target;
+					finalUrl = '/' + target + '.htm';
 				} else {
-					finalUrl = '/' + target + "/" + sliderValue;
+					finalUrl = '/' + target + '.htm' + "?steps=" + sliderValue;
 				}
+
+				console.log(finalUrl);
 
 				$.ajax({
 					url: finalUrl,
