@@ -66,11 +66,11 @@ class Control:
 	def animate(self):
 		while True:
 			if (self.destruct == True):
-				self.down(30)
+				self.down(100)
 				GPIO.output(11, True)
 				time.sleep(0.1)
 				GPIO.output(11, False)
-				self.down(730)
+				self.down(800)
 				self.up(750)
 			else:
 				break
