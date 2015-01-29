@@ -3,15 +3,9 @@ from Home import Home
 from Control import Control
 from Status import *
 import syslog
-# import logging
-# from logging.handlers import FileHandler
 
 app = Flask(__name__)
 # Return ball to home
-
-# file_handler = FileHandler('/boot/logger.log')
-# file_handler.setLevel(logging.WARNING)
-# app.logger.addHandler(file_handler)
 
 @app.route('/')
 def index():
@@ -20,17 +14,6 @@ def index():
 	jquery = url_for('static', filename='js/jquery-1.7.2.min.js')
 	rjs = url_for('static', filename='js/rangeslider.min.js')
 	return render_template('index.html', style=style, rangeslider=rangeslider, jquery=jquery, rjs=rjs)
-
-# @app.route('/up')
-# def beam_me_up():
-# 	control = Control()
-# 	if request.args['steps']:
-# 		steps = int(request.args['steps'])
-# 	if steps > 0:
-# 		control.up(steps)
-# 	else:
-# 		control.up(1)
-# 	return "Beam me up Scotty!"
 
 @app.route('/down/<int:steps>')
 def down_steps(steps):

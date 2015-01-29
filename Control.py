@@ -3,6 +3,7 @@ import time
 import os
 import subprocess
 from Status import *
+import syslog
 
 # This class is to control the step motor.
 # It implements 9 methods
