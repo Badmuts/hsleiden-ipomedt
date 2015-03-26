@@ -8,7 +8,6 @@ import syslog
 import pprint
 
 # This class is to control the step motor.
-# It implements 9 methods
 
 class Control:
 	# Construct
