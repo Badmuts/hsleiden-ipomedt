@@ -16,14 +16,6 @@ def index():
 	rjs 		= url_for('static', filename='js/rangeslider.min.js')
 	return render_template('index.html', style=style, rangeslider=rangeslider, jquery=jquery, rjs=rjs)
 
-# @app.route('/down.htm', methods=['GET'])
-# def down_steps():
-# 	steps = request.params.require('steps')
-# 	control = Control()
-# 	if steps > 0:
-# 		control.down(steps)
-# 	return "PUT THAT COOKIE DOWN! NOW!"
-
 @app.route('/down.htm')
 def down():
 	control = Control()
@@ -33,13 +25,6 @@ def down():
 		steps = 1
 	control.down(steps)
 	return "PUT THAT COOKIE DOWN! NOW!"
-
-# @app.route('/up/<int:steps>')
-# def up_steps(steps):
-# 	control = Control()
-# 	if steps > 0:
-# 		control.up(steps)
-# 	return "Beam me up Scotty!"
 
 @app.route('/up.htm')
 def up():
@@ -55,7 +40,6 @@ def up():
 def return_to_sender():
 	control = Control()
 	control.home()
-	# app.logger.warning('Status Y is (%d Y)', status.y)
 	return "Return to sender"
 
 @app.route('/reboot.htm')
