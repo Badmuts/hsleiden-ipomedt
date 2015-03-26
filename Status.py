@@ -16,19 +16,14 @@ class Status:
 		self.y = y
 		f = open('/boot/y.txt', 'w')
 		f.write(str(y))
+		f.close()
 		return
 
 	def set_x(self, x):
 		self.x = x
 		f = open('/boot/x.txt', 'w')
 		f.write(str(x))
+		f.close()
 		return
-
-# f = open('/boot/x.txt', 'r')		
-# x_pos = int(f.read())
-# f.close()
-# f = open('/boot/y.txt', 'r')		
-# y_pos = int(f.read())
-# f.close()
 
 status = Status(1, 5)
